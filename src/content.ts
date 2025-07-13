@@ -74,12 +74,41 @@ chrome.runtime.onMessage.addListener(async (msg) => {
   }
 });
 
+function removeCopyButton() {
+  const button = document.getElementById("pr2prompt-btn");
+  if (button) {
+    button.remove();
+  }
+}
+
 window.onload = function () {
   const match = window.location.pathname.match(
     /\/([^/]+)\/([^/]+)\/pull\/(\d+)/
   );
+
   if (match) {
     const [, owner, repo, prNumber] = match;
     insertCopyButton(owner, repo, prNumber);
   }
+
+  let lastPath = window.location.pathname;
+
+  const observer = new MutationObserver(() => {
+    if (window.location.pathname !== lastPath) {
+      lastPath = window.location.pathname;
+
+      const match = window.location.pathname.match(
+        /\/([^/]+)\/([^/]+)\/pull\/(\d+)/
+      );
+
+      if (match) {
+        const [, owner, repo, prNumber] = match;
+        insertCopyButton(owner, repo, prNumber);
+      } else {
+        removeCopyButton();
+      }
+    }
+  });
+
+  observer.observe(document.body, { childList: true, subtree: true });
 };
