@@ -54,7 +54,6 @@ chrome.runtime.onMessage.addListener(async (request, sender) => {
       });
       originalTabId = null;
     }
-    console.log(await chrome.tabs.get(sender.tab.id));
     await chrome.tabs.remove(sender.tab.id);
   }
 });

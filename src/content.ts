@@ -5,14 +5,13 @@ function insertCopyButton(owner: string, repo: string, prNumber: string) {
   button.id = "pr2prompt-btn";
   button.textContent = "Copy AI Prompt";
 
-  // 💥 fixed 스타일 적용
   Object.assign(button.style, {
     position: "fixed",
     bottom: "20px",
     right: "20px",
     zIndex: "9999",
     padding: "10px 16px",
-    backgroundColor: "#2da44e", // GitHub green
+    backgroundColor: "#2da44e",
     color: "#fff",
     border: "none",
     borderRadius: "6px",
@@ -23,7 +22,7 @@ function insertCopyButton(owner: string, repo: string, prNumber: string) {
   });
 
   button.addEventListener("mouseenter", () => {
-    button.style.backgroundColor = "#2c974b"; // hover color
+    button.style.backgroundColor = "#2c974b";
   });
 
   button.addEventListener("mouseleave", () => {
@@ -42,11 +41,30 @@ function insertCopyButton(owner: string, repo: string, prNumber: string) {
   document.body.appendChild(button);
 }
 
-chrome.runtime.onMessage.addListener((msg) => {
+chrome.runtime.onMessage.addListener(async (msg) => {
+  const applyTemplate = (
+    template: string,
+    title: string,
+    body: string,
+    diff: string
+  ): string => {
+    return template
+      .replace(/{{\s*title\s*}}/gi, title)
+      .replace(/{{\s*body\s*}}/gi, body)
+      .replace(/{{\s*diff\s*}}/gi, diff);
+  };
+
   if (msg.action === "finalData") {
-    const prompt = `Title:\n${msg.title}\n\nDescription:\n${msg.body}\n\nDiff:\n${msg.diff}`;
+    const template = await chrome.storage.sync.get(["promptTemplate"]);
+    const finalPrompt = applyTemplate(
+      template.promptTemplate ??
+        "Please review the following PR:\n\nTitle: {{title}}\n\nDescription:\n{{body}}\n\nChanges:\n{{diff}}",
+      msg.title,
+      msg.body,
+      msg.diff
+    );
     navigator.clipboard
-      .writeText(prompt)
+      .writeText(finalPrompt)
       .then(() => {
         alert("✅ Prompt copied to clipboard!");
       })

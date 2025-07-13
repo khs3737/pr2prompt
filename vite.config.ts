@@ -8,8 +8,8 @@ export default defineConfig({
         content: resolve(__dirname, "src/content.ts"),
         apiTabContent: resolve(__dirname, "src/apiTabContent.ts"),
         diffTabContent: resolve(__dirname, "src/diffTabContent.ts"),
-        background: resolve(__dirname, "src/background.ts"), // optional, 있으면 추가
-        // popup: resolve(__dirname, 'src/popup.ts'),         // optional, 있으면 추가
+        background: resolve(__dirname, "src/background.ts"),
+        popup: resolve(__dirname, "src/popup.ts"),
       },
       output: {
         entryFileNames: "[name].js",

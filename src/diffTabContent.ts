@@ -1,4 +1,4 @@
-const diffText = document.body.textContent || "";
+const diffText = document.body.textContent ?? "";
 
 chrome.runtime.sendMessage({
   action: "diffCollected",
