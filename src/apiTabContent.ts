@@ -4,7 +4,7 @@ try {
   chrome.runtime.sendMessage({
     action: "apiCollected",
     title: data.title ?? "",
-    description: data.description ?? "",
+    description: data.body ?? "",
     owner: window.location.pathname.split("/")[2],
     repo: window.location.pathname.split("/")[3],
     prNumber: window.location.pathname.split("/")[5],

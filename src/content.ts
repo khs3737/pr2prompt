@@ -57,7 +57,7 @@ chrome.runtime.onMessage.addListener(async (msg) => {
   if (msg.action === "finalData") {
     const template = await chrome.storage.sync.get(["promptTemplate"]);
     const finalPrompt = applyTemplate(
-      template.promptTemplate ??
+      template.promptTemplate ||
         "Please review the following PR:\n\nTitle: {{title}}\n\nDescription:\n{{description}}\n\nChanges:\n{{diff}}",
       msg.title,
       msg.description,

@@ -6,7 +6,7 @@ textarea.placeholder =
 
 chrome.storage.sync.get(["promptTemplate"], (data) => {
   textarea.value =
-    data.promptTemplate ??
+    data.promptTemplate ||
     "Please review the following PR:\n\nTitle: {{title}}\n\nDescription:\n{{description}}\n\nChanges:\n{{diff}}";
 });
 
