@@ -28,6 +28,12 @@
   ],
   "action": {
     "default_popup": "popup.html",
-    "default_title": "Customize your prompt"
+    "default_title": "Customize your prompt",
+    "default_icon": {
+      "128": "pr_cat.png"
+    }
+  },
+  "icons": {
+    "128": "pr_cat.png"
   }
 }
