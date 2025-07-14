@@ -3,7 +3,7 @@ function insertCopyButton(owner: string, repo: string, prNumber: string) {
 
   const button = document.createElement("button");
   button.id = "pr2prompt-btn";
-  button.textContent = "Copy AI Prompt";
+  button.textContent = "Copy PR Prompt";
 
   Object.assign(button.style, {
     position: "fixed",

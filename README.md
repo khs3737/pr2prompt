@@ -19,7 +19,7 @@ https://github.com/user-attachments/assets/8f4c54be-f503-43a9-9d3a-3d703571f94c
 ## 🔧 How It Works
 
 1. Go to a GitHub pull request page.
-2. Click the **floating button** (bottom right): `Copy AI Prompt`.
+2. Click the **floating button** (bottom right): `Copy PR Prompt`.
 3. The extension:
    - Opens the GitHub API and diff in background tabs (no token needed).
    - Extracts the PR details.
