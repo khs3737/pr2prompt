@@ -9,7 +9,7 @@ https://github.com/user-attachments/assets/8f4c54be-f503-43a9-9d3a-3d703571f94c
 ## 🚀 Features
 
 ✅ Extracts PR **title**, **description**, and **diff**  
-✅ Lets you define your own prompt template using `{{title}}`, `{{body}}`, `{{diff}}` placeholders  
+✅ Lets you define your own prompt template using `{{title}}`, `{{description}}`, `{{diff}}` placeholders  
 ✅ Copies the generated prompt directly to your clipboard  
 ✅ Supports public and private repositories (uses your logged-in GitHub session)  
 ✅ Simple popup interface to customize and save your template
@@ -38,7 +38,7 @@ Please review the following PR:
 Title: {{title}}
 
 Description:
-{{body}}
+{{description}}
 
 Changes:
 {{diff}}

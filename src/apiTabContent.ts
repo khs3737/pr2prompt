@@ -4,11 +4,15 @@ try {
   chrome.runtime.sendMessage({
     action: "apiCollected",
     title: data.title ?? "",
-    body: data.body ?? "",
+    description: data.description ?? "",
     owner: window.location.pathname.split("/")[2],
     repo: window.location.pathname.split("/")[3],
     prNumber: window.location.pathname.split("/")[5],
   });
 } catch (err) {
-  chrome.runtime.sendMessage({ action: "apiCollected", title: "", body: "" });
+  chrome.runtime.sendMessage({
+    action: "apiCollected",
+    title: "",
+    description: "",
+  });
 }

@@ -45,12 +45,12 @@ chrome.runtime.onMessage.addListener(async (msg) => {
   const applyTemplate = (
     template: string,
     title: string,
-    body: string,
+    description: string,
     diff: string
   ): string => {
     return template
       .replace(/{{\s*title\s*}}/gi, title)
-      .replace(/{{\s*body\s*}}/gi, body)
+      .replace(/{{\s*description\s*}}/gi, description)
       .replace(/{{\s*diff\s*}}/gi, diff);
   };
 
@@ -58,9 +58,9 @@ chrome.runtime.onMessage.addListener(async (msg) => {
     const template = await chrome.storage.sync.get(["promptTemplate"]);
     const finalPrompt = applyTemplate(
       template.promptTemplate ??
-        "Please review the following PR:\n\nTitle: {{title}}\n\nDescription:\n{{body}}\n\nChanges:\n{{diff}}",
+        "Please review the following PR:\n\nTitle: {{title}}\n\nDescription:\n{{description}}\n\nChanges:\n{{diff}}",
       msg.title,
-      msg.body,
+      msg.description,
       msg.diff
     );
     navigator.clipboard

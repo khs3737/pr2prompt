@@ -1,5 +1,5 @@
 let originalTabId: number | null = null;
-let collected = { title: "", body: "", diff: "" };
+let collected = { title: "", description: "", diff: "" };
 
 chrome.runtime.onMessage.addListener(async (request, sender) => {
   if (sender?.tab?.id === undefined) {
@@ -25,7 +25,7 @@ chrome.runtime.onMessage.addListener(async (request, sender) => {
 
   if (request.action === "apiCollected") {
     collected.title = request.title;
-    collected.body = request.body;
+    collected.description = request.description;
     await chrome.tabs.remove(sender.tab.id);
 
     const diffUrl = `https://github.com/${request.owner}/${request.repo}/pull/${request.prNumber}.diff`;
@@ -49,7 +49,7 @@ chrome.runtime.onMessage.addListener(async (request, sender) => {
       await chrome.tabs.sendMessage(originalTabId, {
         action: "finalData",
         title: collected.title,
-        body: collected.body,
+        description: collected.description,
         diff: collected.diff,
       });
       originalTabId = null;
