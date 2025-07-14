@@ -1,7 +1,7 @@
 {
   "name": "pr2prompt",
   "description": "pr2prompt lets you turn GitHub pull requests into AI prompts for instant code review feedback.",
-  "version": "0.1",
+  "version": "1.0.0",
   "manifest_version": 3,
   "permissions": ["scripting", "clipboardWrite", "storage"],
   "host_permissions": [
