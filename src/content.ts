@@ -54,6 +54,40 @@ chrome.runtime.onMessage.addListener(async (msg) => {
       .replace(/{{\s*diff\s*}}/gi, diff);
   };
 
+  if (msg.action === "apiCollect") {
+    const jsonText = document.body.textContent ?? "";
+    try {
+      const data = JSON.parse(jsonText);
+      chrome.runtime.sendMessage({
+        action: "apiCollected",
+        title: data.title ?? "",
+        description: data.body ?? "",
+        owner: window.location.pathname.split("/")[2],
+        repo: window.location.pathname.split("/")[3],
+        prNumber: window.location.pathname.split("/")[5],
+      });
+    } catch (err) {
+      chrome.runtime.sendMessage({
+        action: "apiCollected",
+        title: "",
+        description: "",
+      });
+    }
+
+    return;
+  }
+
+  if (msg.action === "diffCollect") {
+    const diffText = document.body.textContent ?? "";
+
+    chrome.runtime.sendMessage({
+      action: "diffCollected",
+      diff: diffText,
+    });
+
+    return;
+  }
+
   if (msg.action === "finalData") {
     const template = await chrome.storage.sync.get(["promptTemplate"]);
     const finalPrompt = applyTemplate(
@@ -71,6 +105,8 @@ chrome.runtime.onMessage.addListener(async (msg) => {
       .catch((err) => {
         alert("❌ Failed to copy prompt: " + err);
       });
+
+    return;
   }
 });
 

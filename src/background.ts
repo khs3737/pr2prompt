@@ -14,10 +14,10 @@ chrome.runtime.onMessage.addListener(async (request, sender) => {
 
     chrome.tabs.onUpdated.addListener(async function listener(tabId, info) {
       if (tabId === apiTab.id && info.status === "complete") {
-        await chrome.scripting.executeScript({
-          target: { tabId: apiTab.id },
-          files: ["apiTabContent.js"],
+        await chrome.tabs.sendMessage(apiTab.id, {
+          action: "apiCollect",
         });
+
         chrome.tabs.onUpdated.removeListener(listener);
       }
     });
@@ -33,9 +33,8 @@ chrome.runtime.onMessage.addListener(async (request, sender) => {
 
     chrome.tabs.onUpdated.addListener(async function listener(tabId, info) {
       if (tabId === diffTab.id && info.status === "complete") {
-        await chrome.scripting.executeScript({
-          target: { tabId: diffTab.id },
-          files: ["diffTabContent.js"],
+        await chrome.tabs.sendMessage(diffTab.id, {
+          action: "diffCollect",
         });
         chrome.tabs.onUpdated.removeListener(listener);
       }

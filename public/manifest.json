@@ -1,12 +1,12 @@
 {
   "name": "pr2prompt",
   "description": "pr2prompt lets you turn GitHub pull requests into AI prompts for instant code review feedback.",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "manifest_version": 3,
-  "permissions": ["scripting", "clipboardWrite", "storage"],
+  "permissions": ["clipboardWrite", "storage"],
   "host_permissions": [
     "https://github.com/*",
-    "https://api.github.com/*",
+    "https://api.github.com/repos/*/*/issues/*",
     "https://patch-diff.githubusercontent.com/*"
   ],
   "background": {
@@ -14,16 +14,12 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://github.com/*"],
+      "matches": [
+        "https://github.com/*",
+        "https://api.github.com/repos/*/*/issues/*",
+        "https://patch-diff.githubusercontent.com/*"
+      ],
       "js": ["content.js"]
-    },
-    {
-      "matches": ["https://api.github.com/repos/*/*/issues/*"],
-      "js": ["apiTabContent.js"]
-    },
-    {
-      "matches": ["https://patch-diff.githubusercontent.com/"],
-      "js": ["diffTabContent.js"]
     }
   ],
   "action": {
