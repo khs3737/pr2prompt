@@ -2,6 +2,8 @@
 
 💬 **pr2prompt** is a Chrome extension that lets you turn GitHub pull requests into customizable AI prompts for instant code review feedback.
 
+⬇️ [Download on Chrome Web Store](https://chromewebstore.google.com/detail/pr2prompt/ngfjlogeneilajnklafnhklllalelkge) ⬇️
+
 https://github.com/user-attachments/assets/8f4c54be-f503-43a9-9d3a-3d703571f94c
 
 ---
@@ -43,26 +45,3 @@ Description:
 Changes:
 {{diff}}
 ```
-
-## 🛠 Setup
-
-1. Clone the repo:
-
-   ```bash
-   git clone https://github.com/khs3737/pr2prompt.git
-   cd pr2prompt
-   ```
-
-2. Install dependencies:
-
-   ```bash
-   npm install
-   ```
-
-3. Build the extension:
-
-   ```bash
-   npm run build
-   ```
-
-4. Go to chrome://extensions, enable Developer mode, and Load unpacked → select the dist/ folder.
