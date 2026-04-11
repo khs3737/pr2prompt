@@ -12,6 +12,7 @@ chrome.storage.sync.get(["promptTemplate"], (data) => {
 
 saveBtn.addEventListener("click", async () => {
   await chrome.storage.sync.set({ promptTemplate: textarea.value });
-  alert("✅ Template saved!");
-  window.close();
+  saveBtn.textContent = "Saved!";
+  saveBtn.style.backgroundColor = "#388e3c";
+  setTimeout(() => window.close(), 800);
 });
