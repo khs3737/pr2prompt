@@ -118,9 +118,9 @@ function removeCopyButton() {
 }
 
 window.onload = function () {
-  const match = window.location.pathname.match(
-    /\/([^/]+)\/([^/]+)\/pull\/(\d+)/
-  );
+  const match =
+    window.location.origin === "https://github.com" &&
+    window.location.pathname.match(/\/([^/]+)\/([^/]+)\/pull\/(\d+)/);
 
   if (match) {
     const [, owner, repo, prNumber] = match;
