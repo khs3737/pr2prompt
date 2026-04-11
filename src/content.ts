@@ -83,34 +83,25 @@ function removeCopyButton() {
   }
 }
 
-window.onload = function () {
-  const match =
-    window.location.origin === "https://github.com" &&
-    window.location.pathname.match(/\/([^/]+)\/([^/]+)\/pull\/(\d+)/);
+function checkAndToggleButton() {
+  const match = window.location.pathname.match(
+    /\/([^/]+)\/([^/]+)\/pull\/(\d+)/
+  );
 
   if (match) {
     const [, owner, repo, prNumber] = match;
     insertCopyButton(owner, repo, prNumber);
+  } else {
+    removeCopyButton();
   }
+}
 
-  let lastPath = window.location.pathname;
+checkAndToggleButton();
 
-  const observer = new MutationObserver(() => {
-    if (window.location.pathname !== lastPath) {
-      lastPath = window.location.pathname;
-
-      const match = window.location.pathname.match(
-        /\/([^/]+)\/([^/]+)\/pull\/(\d+)/
-      );
-
-      if (match) {
-        const [, owner, repo, prNumber] = match;
-        insertCopyButton(owner, repo, prNumber);
-      } else {
-        removeCopyButton();
-      }
-    }
-  });
-
-  observer.observe(document.body, { childList: true, subtree: true });
-};
+let lastHref = location.href;
+setInterval(() => {
+  if (location.href !== lastHref) {
+    lastHref = location.href;
+    checkAndToggleButton();
+  }
+}, 500);
