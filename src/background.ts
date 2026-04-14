@@ -6,27 +6,20 @@ chrome.runtime.onMessage.addListener(async (request, sender) => {
   const originalTabId = sender.tab.id;
 
   try {
-    const apiUrl = `https://api.github.com/repos/${owner}/${repo}/issues/${prNumber}`;
-    const apiRes = await fetch(apiUrl, { credentials: "include" });
+    const baseUrl = `https://github.com/${owner}/${repo}/pull/${prNumber}`;
 
-    if (!apiRes.ok) {
-      const error =
-        apiRes.status === 403
-          ? "GitHub API rate limit exceeded."
-          : apiRes.status === 404
-            ? "PR not found."
-            : `GitHub API error (${apiRes.status}).`;
+    const [pageRes, diffRes] = await Promise.all([
+      fetch(baseUrl, { credentials: "include" }),
+      fetch(`${baseUrl}.diff`, { credentials: "include" }),
+    ]);
+
+    if (!pageRes.ok) {
       await chrome.tabs.sendMessage(originalTabId, {
         action: "finalData",
-        error,
+        error: `Failed to fetch PR page (${pageRes.status}).`,
       });
       return;
     }
-
-    const apiData = await apiRes.json();
-
-    const diffUrl = `https://github.com/${owner}/${repo}/pull/${prNumber}.diff`;
-    const diffRes = await fetch(diffUrl, { credentials: "include" });
 
     if (!diffRes.ok) {
       await chrome.tabs.sendMessage(originalTabId, {
@@ -36,12 +29,14 @@ chrome.runtime.onMessage.addListener(async (request, sender) => {
       return;
     }
 
-    const diff = await diffRes.text();
+    const [html, diff] = await Promise.all([
+      pageRes.text(),
+      diffRes.text(),
+    ]);
 
     await chrome.tabs.sendMessage(originalTabId, {
       action: "finalData",
-      title: apiData.title ?? "",
-      description: apiData.body ?? "",
+      html,
       diff,
     });
   } catch {

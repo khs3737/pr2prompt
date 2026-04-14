@@ -100,15 +100,22 @@ chrome.runtime.onMessage.addListener(async (msg) => {
     return;
   }
 
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(msg.html, "text/html");
+  const title =
+    doc.querySelector(".markdown-title")?.textContent?.trim() ?? "";
+  const description =
+    (doc.querySelector(".comment-body") as HTMLElement)?.textContent?.trim() ?? "";
+
   const applyTemplate = (
     template: string,
-    title: string,
-    description: string,
+    t: string,
+    d: string,
     diff: string
   ): string => {
     return template
-      .replace(/{{\s*title\s*}}/gi, title)
-      .replace(/{{\s*description\s*}}/gi, description)
+      .replace(/{{\s*title\s*}}/gi, t)
+      .replace(/{{\s*description\s*}}/gi, d)
       .replace(/{{\s*diff\s*}}/gi, diff);
   };
 
@@ -116,8 +123,8 @@ chrome.runtime.onMessage.addListener(async (msg) => {
   const finalPrompt = applyTemplate(
     template.promptTemplate ||
       "Please review the following PR:\n\nTitle: {{title}}\n\nDescription:\n{{description}}\n\nChanges:\n{{diff}}",
-    msg.title,
-    msg.description,
+    title,
+    description,
     msg.diff
   );
 
